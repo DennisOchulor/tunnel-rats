@@ -1,5 +1,5 @@
 name: tunnel-rats-plugin
-main: tunnel_rats.TunnelRats
+main: main.TunnelRats
 version: 0.1.0
 description: Inspired by Xisuma's Tunnel Rats game on Hermitcraft!
 author: Ninjaking312
@@ -7,8 +7,13 @@ api-version: '1.20'
 depend: [WorldEdit]
 commands:
   tunnel:
-    description: Load or list tunnels
+    description: Generate or list tunnels
     usage: /tunnel <name> to generate the specified tunnel, /tunnel to list all tunnels.
+    permission: op
+    permission-message: You do not have permission to run this command!
+  mode:
+    description: Switch between 2 teams and 4 teams mode
+    usage: /mode to switch modes
     permission: op
     permission-message: You do not have permission to run this command!
 permissions:

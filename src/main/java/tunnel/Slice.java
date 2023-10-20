@@ -1,4 +1,4 @@
-package tunnel_rats;
+package tunnel;
 
 import org.yaml.snakeyaml.error.YAMLException;
 
