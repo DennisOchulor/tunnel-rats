@@ -1,5 +1,6 @@
 package tunnel;
 
+import command.ModeCommand;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.error.YAMLException;
 import main.FileManager;

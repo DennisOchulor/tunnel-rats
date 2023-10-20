@@ -12,6 +12,7 @@ import com.sk89q.worldedit.function.operation.Operation;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
+import command.ModeCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import tunnel.Slice;
@@ -56,7 +57,7 @@ public class TunnelGenerator {
         }
 
         //SET NEW BLANKWORLD  +10 is as a safety buffer
-        Coordinate pos1 = generator.refPos.shiftZ(-1 * generator.totalTunnelLength / 2 + 10).shiftX(-2);
+        Coordinate pos1 = generator.refPos.shiftZ(-1 * generator.totalTunnelLength / 2 - 10).shiftX(-2);
         Coordinate pos2 = generator.refPos.shiftZ(generator.totalTunnelLength / 2 + 10).shiftX(generator.totalTunnelLength + 10).shiftY(tunnel.height() + 10);
         pref.put("blankworld","pos1 " + pos1.asWorldEditString() + "\n" + "pos2 " + pos2.asWorldEditString() + "\n" + "set air");
         generator.start();
@@ -66,6 +67,8 @@ public class TunnelGenerator {
         phase1();
         phase2();
         phase3();
+        if(ModeCommand.mode() == 4) phase4();
+        generating = false;
     }
 
     private void phase1() { //THE BEDROCK TUNNEL ITSELF AND THE BEDROOMS
@@ -156,6 +159,7 @@ public class TunnelGenerator {
         worldedit("paste -e");
 
         //the middle
+        if(ModeCommand.mode() == 4) return; //middle will be generated later for reasons
         Coordinate middleCoords = refPos.shiftZ(1);
         try(EditSession session = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(Bukkit.getWorld("world")));
             ClipboardReader reader = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getReader(new FileInputStream(tunnel.middle().file())))
@@ -171,7 +175,34 @@ public class TunnelGenerator {
 
     private void phase3() { //THE FOUR LINES OF THE TUNNEL AND SOME CLEANUP
         runLater.forEach(Runnable::run);
-        generating = false;
+    }
+
+    private void phase4() { //4 TEAMS TUNNEL GENERATION
+        Coordinate middleCoords = refPos.shiftZ(1);
+
+        refPos = refPos.shiftX((tunnel.totalSlicesLength() + 6) * -1).shiftZ(1).shiftY(-1); //now at FULL frontBottomRight
+        worldedit("pos1 " + refPos.asWorldEditString());
+        Coordinate backUpperLeft = refPos.shiftX(totalTunnelLength + 2).shiftZ((tunnel.width() + 1) * -1).shiftY((tunnel.height() + 1));
+        worldedit("pos2 " + backUpperLeft.asWorldEditString());
+        worldedit("copy -e");
+        worldedit("rotate 90");
+        Coordinate pasteLocation = refPos.shiftX(tunnel.totalSlicesLength() + tunnel.middle().length() - 9).shiftZ(totalTunnelLength / -2 - 1).shiftZ(tunnel.width() % 2 == 0 ? tunnel.width() / -2 : tunnel.width() / -2 - 1); // lsat part is to center it
+        worldedit("pos1 " + pasteLocation.asWorldEditString());
+        worldedit("gmask air"); //only replace AIR blocks
+        worldedit("paste -e"); //todo oh god have mercy
+        worldedit("gmask"); //disable it
+
+        //GENERATE THE MIDDLE NOW FOR 4 TEAMS
+        try(EditSession session = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(Bukkit.getWorld("world")));
+            ClipboardReader reader = BuiltInClipboardFormat.SPONGE_SCHEMATIC.getReader(new FileInputStream(tunnel.middle().file())))
+        {
+            Clipboard clipboard = reader.read();
+            Operation op = new ClipboardHolder(clipboard).createPaste(session).to(BlockVector3.at(middleCoords.x(), middleCoords.y(), middleCoords.z())).build();
+            Operations.complete(op);
+        }
+        catch (IOException | WorldEditException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void setBedrock(Coordinate c0, Coordinate c1) {

@@ -26,7 +26,7 @@ public class Teleporters {
     public static void configureTeleporters(Coordinate blue, Tunnel tunnel) {
         //to be called by TunnelGenerator
         setCommandBlock(BLUE,blue);
-        Coordinate red = blue.shiftX(tunnel.totalSlicesLength() * 2 + tunnel.middle().length() + 7); //todo FIX
+        Coordinate red = blue.shiftX(tunnel.totalSlicesLength() * 2 + tunnel.middle().length() + 13); //todo FIX
         setCommandBlock(RED,red);
         if(ModeCommand.mode() == 2) return;
         //todo 4 teams version, also remember 4 teams middle width==length constraint
