@@ -16,6 +16,11 @@ commands:
     usage: /mode to switch modes
     permission: op
     permission-message: You do not have permission to run this command!
+  start:
+    description: Starts the game
+    usage: /start
+    permission: op
+    permission-message: You do not have permission to run this command!
 permissions:
   op:
     default: op

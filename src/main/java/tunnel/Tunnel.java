@@ -1,9 +1,8 @@
 package tunnel;
 
-import command.ModeCommand;
+import main.FileManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.yaml.snakeyaml.error.YAMLException;
-import main.FileManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -43,7 +42,6 @@ public record Tunnel(int width, int height, Middle middle, List<Slice> slices) {
             return new Tunnel(width,height,Middle.getMiddle(middle),slices);
         }
         catch (NullPointerException | ClassCastException e) {
-            e.printStackTrace();
             throw new YAMLException("Malformed YAML file! Please ensure you followed the tunnel template carefully.");
         }
     }

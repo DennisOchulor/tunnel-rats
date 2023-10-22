@@ -4,7 +4,6 @@ import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.WorldEditException;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
-import com.sk89q.worldedit.extension.platform.Preference;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.BuiltInClipboardFormat;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
@@ -19,9 +18,7 @@ import tunnel.Slice;
 import tunnel.Tunnel;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
@@ -68,6 +65,7 @@ public class TunnelGenerator {
         phase2();
         phase3();
         if(ModeCommand.mode() == 4) phase4();
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill @e[type=item]"); //to delete dropped beds
         generating = false;
     }
 
@@ -145,6 +143,12 @@ public class TunnelGenerator {
         for(Slice s : tunnel.slices()) {
             pos2 = refPos.shiftZ((tunnel.width() - 1) * -1).shiftY(tunnel.height() - 1).shiftX(s.length() - 1);
             setRandom(refPos,pos2,s.composition());
+            if(s.nbtReplaces() != null) { //worldedit can't read NBT data directly in commands, so use vanilla /fill if NBT data exists in the composition
+                for(Slice.NbtReplace nbtReplace : s.nbtReplaces()) {
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "fill " + refPos.asVanillaString() + " " + pos2.asVanillaString() + " " + nbtReplace.block() + " replace " + nbtReplace.filter());
+                    System.out.println("fill " + refPos.asVanillaString() + " " + pos2.asVanillaString() + " " + nbtReplace.block() + " replace " + nbtReplace.filter());
+                }
+            }
             refPos = refPos.shiftX(s.length());
         }
 
@@ -182,15 +186,17 @@ public class TunnelGenerator {
 
         refPos = refPos.shiftX((tunnel.totalSlicesLength() + 6) * -1).shiftZ(1).shiftY(-1); //now at FULL frontBottomRight
         worldedit("pos1 " + refPos.asWorldEditString());
-        Coordinate backUpperLeft = refPos.shiftX(totalTunnelLength + 2).shiftZ((tunnel.width() + 1) * -1).shiftY((tunnel.height() + 1));
-        worldedit("pos2 " + backUpperLeft.asWorldEditString());
+        Coordinate frontOfMidUpperLeft = refPos.shiftX(tunnel.totalSlicesLength() + 5).shiftZ((tunnel.width() + 1) * -1).shiftY((tunnel.height() + 1));
+        worldedit("pos2 " + frontOfMidUpperLeft.asWorldEditString());
         worldedit("copy -e");
         worldedit("rotate 90");
-        Coordinate pasteLocation = refPos.shiftX(tunnel.totalSlicesLength() + tunnel.middle().length() - 9).shiftZ(totalTunnelLength / -2 - 1).shiftZ(tunnel.width() % 2 == 0 ? tunnel.width() / -2 : tunnel.width() / -2 - 1); // lsat part is to center it
+        Coordinate pasteLocation = frontOfMidUpperLeft.shiftY((tunnel.height() + 1) * -1).shiftZ((tunnel.totalSlicesLength() + 5) * -1);
         worldedit("pos1 " + pasteLocation.asWorldEditString());
-        worldedit("gmask air"); //only replace AIR blocks
-        worldedit("paste -e"); //todo oh god have mercy
-        worldedit("gmask"); //disable it
+        worldedit("paste -e");
+        worldedit("rotate -180");
+        pasteLocation = pasteLocation.shiftZ(totalTunnelLength + 2).shiftX(tunnel.middle().length() + 1);
+        worldedit("pos1 " + pasteLocation.asWorldEditString());
+        worldedit("paste -e");
 
         //GENERATE THE MIDDLE NOW FOR 4 TEAMS
         try(EditSession session = WorldEdit.getInstance().newEditSession(BukkitAdapter.adapt(Bukkit.getWorld("world")));
@@ -203,6 +209,14 @@ public class TunnelGenerator {
         catch (IOException | WorldEditException e) {
             throw new RuntimeException(e);
         }
+
+        //FINALLY FILL IN THE GAPS IN THE MIDDLE
+        Coordinate lowerRight = middleCoords.shiftZ(-1).shiftY(-1);
+        Coordinate lowerLeft = lowerRight.shiftX(tunnel.middle().length() - 1).shiftZ((tunnel.middle().width() - 1) * -1);
+        setBedrock(lowerLeft,lowerRight);
+        Coordinate upperRight = lowerRight.shiftY(tunnel.middle().height() + 1);
+        Coordinate upperLeft = lowerLeft.shiftY(tunnel.middle().height() + 1);
+        setBedrock(upperRight,upperLeft);
     }
 
     private static void setBedrock(Coordinate c0, Coordinate c1) {

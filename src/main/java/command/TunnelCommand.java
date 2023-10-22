@@ -1,5 +1,7 @@
 package command;
 
+import main.FileManager;
+import main.TunnelGenerator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextColor;
@@ -11,8 +13,6 @@ import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.error.YAMLException;
 import tunnel.Tunnel;
-import main.FileManager;
-import main.TunnelGenerator;
 
 import java.util.List;
 
@@ -34,8 +34,11 @@ public class TunnelCommand implements CommandExecutor {
         try {
             Tunnel tunnel = Tunnel.getTunnel(args[0]);
             if(tunnel == null) sender.sendMessage("The tunnel '" + args[0] + "' does not exists!");
-            else TunnelGenerator.generate(tunnel, sender);
-            sender.sendMessage("Successfully generated tunnel '" + args[0] + "'!");
+            else {
+                sender.sendMessage("Generating tunnel...one moment!");
+                TunnelGenerator.generate(tunnel, sender);
+                sender.sendMessage("Successfully generated tunnel '" + args[0] + "'!");
+            }
         }
         catch (IllegalArgumentException | YAMLException e) {
             sender.sendMessage(Component.text().content("[Validation Error] " + e.getMessage()).color(TextColor.color(255,0,0)).build());

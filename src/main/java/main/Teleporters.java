@@ -2,15 +2,14 @@ package main;
 
 import command.ModeCommand;
 import org.bukkit.Bukkit;
-import org.bukkit.block.CommandBlock;
 import tunnel.Tunnel;
 
 public class Teleporters {
 
-    private static final Coordinate RED = new Coordinate(14, -60, 8);
-    private static final Coordinate BLUE = new Coordinate(2, -60, 8);
-    private static final Coordinate GREEN = new Coordinate(8, -60, 14);
-    private static final Coordinate YELLOW = new Coordinate(8, -60, 2);
+    private static final Coordinate RED = new Coordinate(14, -61, 8);
+    private static final Coordinate BLUE = new Coordinate(2, -61, 8);
+    private static final Coordinate GREEN = new Coordinate(8, -61, 14);
+    private static final Coordinate YELLOW = new Coordinate(8, -61, 2);
 
     public static void switchMode() {
         if(ModeCommand.mode() == 2) {
@@ -26,14 +25,20 @@ public class Teleporters {
     public static void configureTeleporters(Coordinate blue, Tunnel tunnel) {
         //to be called by TunnelGenerator
         setCommandBlock(BLUE,blue);
-        Coordinate red = blue.shiftX(tunnel.totalSlicesLength() * 2 + tunnel.middle().length() + 13); //todo FIX
+        Coordinate red = blue.shiftX(tunnel.totalSlicesLength() * 2 + tunnel.middle().length() + 7);
         setCommandBlock(RED,red);
+
         if(ModeCommand.mode() == 2) return;
-        //todo 4 teams version, also remember 4 teams middle width==length constraint
+        int midShift = tunnel.middle().length() / 2;
+        Coordinate mid = blue.shiftX(tunnel.totalSlicesLength() + 4).shiftX(midShift);
+        Coordinate green = mid.shiftZ(midShift + tunnel.totalSlicesLength() + 4);
+        setCommandBlock(GREEN,green);
+        Coordinate yellow = mid.shiftZ((midShift + tunnel.totalSlicesLength() + 4) * -1);
+        setCommandBlock(YELLOW,yellow);
     }
 
     private static void setCommandBlock(Coordinate team, Coordinate posToTeleportTo) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"fill " + team.asVanillaString() + " " + team.asVanillaString() + " command_block{Command:\"tp @p " + posToTeleportTo.asVanillaString() + "\"} replace");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"setblock " + team.asVanillaString() + " command_block{Command:\"tp @p " + posToTeleportTo.asVanillaString() + "\"} destroy");
     }
 
 }
