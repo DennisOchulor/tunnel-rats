@@ -16,6 +16,7 @@ public class StartCommand implements CommandExecutor {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect give @a saturation 3 2 true");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set @a 0 points");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set @a 0 levels");
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke @a everything");
         Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("5"); playNoteblock(1); },100);
         Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("4"); playNoteblock(1); },120);
         Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("3"); playNoteblock(1); },140);

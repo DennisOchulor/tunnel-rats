@@ -53,7 +53,7 @@ public class TunnelGenerator {
             worldedit(command);
         }
 
-        //SET NEW BLANKWORLD  +10 is as a safety buffer
+        //SET NEW BLANKWORLD  +/-10 is as a safety buffer
         Coordinate pos1 = generator.refPos.shiftZ(-1 * generator.totalTunnelLength / 2 - 10).shiftX(-2);
         Coordinate pos2 = generator.refPos.shiftZ(generator.totalTunnelLength / 2 + 10).shiftX(generator.totalTunnelLength + 10).shiftY(tunnel.height() + 10);
         pref.put("blankworld","pos1 " + pos1.asWorldEditString() + "\n" + "pos2 " + pos2.asWorldEditString() + "\n" + "set air");

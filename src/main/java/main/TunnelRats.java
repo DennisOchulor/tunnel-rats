@@ -1,6 +1,7 @@
 package main;
 
 import command.ModeCommand;
+import command.SaveMiddleCommand;
 import command.StartCommand;
 import command.TunnelCommand;
 import org.bukkit.Bukkit;
@@ -15,7 +16,7 @@ public class TunnelRats extends JavaPlugin implements Listener {
         this.getCommand("tunnel").setExecutor(new TunnelCommand());
         this.getCommand("mode").setExecutor(new ModeCommand());
         this.getCommand("start").setExecutor(new StartCommand());
-
+        this.getCommand("savemiddle").setExecutor(new SaveMiddleCommand());
         Bukkit.getScheduler().scheduleSyncDelayedTask(this,() -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/world world"));
     }
 

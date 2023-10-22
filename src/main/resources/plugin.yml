@@ -21,6 +21,11 @@ commands:
     usage: /start
     permission: op
     permission-message: You do not have permission to run this command!
+  savemiddle:
+    description: Teleports the player to the correct position, copies and saves the middle
+    usage: /savemiddle <name>
+    permission: op
+    permission-message: You do not have permission to run this command!
 permissions:
   op:
     default: op
