@@ -60,7 +60,7 @@ public class TunnelGenerator {
         generator.start();
     }
 
-    private void start() {
+    private void start() {//todo intercept console thingie
         phase1();
         phase2();
         phase3();
@@ -146,7 +146,6 @@ public class TunnelGenerator {
             if(s.nbtReplaces() != null) { //worldedit can't read NBT data directly in commands, so use vanilla /fill if NBT data exists in the composition
                 for(Slice.NbtReplace nbtReplace : s.nbtReplaces()) {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "fill " + refPos.asVanillaString() + " " + pos2.asVanillaString() + " " + nbtReplace.block() + " replace " + nbtReplace.filter());
-                    System.out.println("fill " + refPos.asVanillaString() + " " + pos2.asVanillaString() + " " + nbtReplace.block() + " replace " + nbtReplace.filter());
                 }
             }
             refPos = refPos.shiftX(s.length());

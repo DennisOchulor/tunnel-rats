@@ -12,6 +12,7 @@ public class TunnelRats extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        FileManager.ensureRequiredFoldersExists();
         Bukkit.getPluginManager().registerEvents(this, this);
         this.getCommand("tunnel").setExecutor(new TunnelCommand());
         this.getCommand("mode").setExecutor(new ModeCommand());

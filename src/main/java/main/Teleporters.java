@@ -24,21 +24,36 @@ public class Teleporters {
 
     public static void configureTeleporters(Coordinate blue, Tunnel tunnel) {
         //to be called by TunnelGenerator
-        setCommandBlock(BLUE,blue);
+        setCommandBlockTp(BLUE,blue);
         Coordinate red = blue.shiftX(tunnel.totalSlicesLength() * 2 + tunnel.middle().length() + 7);
-        setCommandBlock(RED,red);
+        setCommandBlockTp(RED,red);
 
-        if(ModeCommand.mode() == 2) return;
+        if(ModeCommand.mode() == 2) {
+            setCommandBlock(GREEN, "tellraw @p \\\"This team is not included in 2 teams mode.\\\"");
+            setCommandBlock(YELLOW, "tellraw @p \\\"This team is not included in 2 teams mode.\\\"");
+            return;
+        }
         int midShift = tunnel.middle().length() / 2;
         Coordinate mid = blue.shiftX(tunnel.totalSlicesLength() + 4).shiftX(midShift);
         Coordinate green = mid.shiftZ(midShift + tunnel.totalSlicesLength() + 4);
-        setCommandBlock(GREEN,green);
+        setCommandBlockTp(GREEN,green);
         Coordinate yellow = mid.shiftZ((midShift + tunnel.totalSlicesLength() + 4) * -1);
-        setCommandBlock(YELLOW,yellow);
+        setCommandBlockTp(YELLOW,yellow);
     }
 
-    private static void setCommandBlock(Coordinate team, Coordinate posToTeleportTo) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"setblock " + team.asVanillaString() + " command_block{Command:\"tp @p " + posToTeleportTo.asVanillaString() + "\"} destroy");
+    public static void disableTeleporters() {
+        setCommandBlock(BLUE, "tellraw @p \\\"Game is already in progress!\\\"");
+        setCommandBlock(RED, "tellraw @p \\\"Game is already in progress!\\\"");
+        setCommandBlock(GREEN, "tellraw @p \\\"Game is already in progress!\\\"");
+        setCommandBlock(YELLOW, "tellraw @p \\\"Game is already in progress!\\\"");
+    }
+
+    private static void setCommandBlockTp(Coordinate team, Coordinate posToTeleportTo) {
+        setCommandBlock(team, "tp @p " + posToTeleportTo.asVanillaString());
+    }
+
+    private static void setCommandBlock(Coordinate team, String command) {
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"setblock " + team.asVanillaString() + " command_block{Command:\"" + command + "\"} destroy");
     }
 
 }

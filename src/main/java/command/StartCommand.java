@@ -1,5 +1,6 @@
 package command;
 
+import main.Teleporters;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +11,7 @@ public class StartCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        Teleporters.disableTeleporters();
         title("Remember to set your spawn!");
         playNoteblock(0.5);
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect clear @a");

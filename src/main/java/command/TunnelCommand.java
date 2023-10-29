@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.error.YAMLException;
 import tunnel.Tunnel;
@@ -32,7 +33,7 @@ public class TunnelCommand implements CommandExecutor {
         }
 
         try {
-            Tunnel tunnel = Tunnel.getTunnel(args[0]);
+            Tunnel tunnel = Tunnel.getTunnel(args[0], (Player) sender);
             if(tunnel == null) sender.sendMessage("The tunnel '" + args[0] + "' does not exists!");
             else {
                 sender.sendMessage("Generating tunnel...one moment!");

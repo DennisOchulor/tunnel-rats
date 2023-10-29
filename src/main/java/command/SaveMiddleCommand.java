@@ -14,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class SaveMiddleCommand implements CommandExecutor {
 
-
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(strings.length != 1) {
@@ -25,7 +24,6 @@ public class SaveMiddleCommand implements CommandExecutor {
             LocalSession session = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(commandSender));
             BlockVector3 vec = session.getSelection().getMinimumPoint();
             Coordinate copyPos = new Coordinate(vec.getBlockX(),vec.getBlockY(),vec.getBlockZ()).shiftZ(session.getSelection().getLength());
-            System.out.println(session.getSelection().getMinimumPoint());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"tp " + commandSender.getName() + " " + copyPos.asVanillaString());
             Bukkit.dispatchCommand(commandSender,"/copy -e");
             Bukkit.dispatchCommand(commandSender,"/schem save " + strings[0]);
