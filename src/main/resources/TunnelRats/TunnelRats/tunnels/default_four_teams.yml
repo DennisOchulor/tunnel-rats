@@ -1,0 +1,15 @@
+width: 15
+height: 8
+middle: default_four_teams
+slices:
+ - 9 60%oak_log,40%stripped_oak_wood
+ - 9 90%oak_wood,8%melon,2%bookshelf
+ - 9 75%stone,20%gravel,5%cobweb
+ - 9 85%cobblestone,5%iron_ore,5%raw_iron_block,5%chest[facing=west,type=single,waterlogged=false]{Items:[{Count:5b,Slot:13b,id:"minecraft:feather"}]}
+ - 9 60%sandstone,30%sand,5%hay_block,5%gold_block
+ - 9 80%tuff,15%coal_ore,5%lapis_ore
+ - 9 90%smooth_basalt,5%obsidian,5%chest[facing=west,type=single,waterlogged=false]{Items:[{Count:5b,Slot:13b,id:"minecraft:gunpowder"}]}
+ - 9 92%basalt,4%iron_ore,4%iron_block
+ - 9 95%cobbled_deepslate,4%diamond_ore,1%diamond_block
+ - 9 90%deepslate,5%redstone_ore,5%chest[facing=west,type=single,waterlogged=false]{Items:[{Count:1b,Slot:13b,id:"minecraft:apple"}]}
+ - 9 95%deepslate_tiles,5%lapis_ore
