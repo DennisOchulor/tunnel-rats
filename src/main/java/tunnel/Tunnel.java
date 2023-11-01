@@ -5,7 +5,6 @@ import com.sk89q.worldedit.extension.input.ParserContext;
 import main.FileManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.yaml.snakeyaml.error.YAMLException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public record Tunnel(int width, int height, Middle middle, List<Slice> slices) {
             return new Tunnel(width,height,Middle.getMiddle(middle),slices);
         }
         catch (NullPointerException | ClassCastException e) {
-            throw new YAMLException("Malformed YAML file! Please ensure you followed the tunnel template carefully.");
+            throw new IllegalArgumentException("Malformed YAML file! Please ensure you followed the tunnel template carefully.");
         }
     }
 

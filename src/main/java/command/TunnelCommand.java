@@ -12,7 +12,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.error.YAMLException;
 import tunnel.Tunnel;
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class TunnelCommand implements CommandExecutor {
                 sender.sendMessage("Successfully generated tunnel '" + args[0] + "'!");
             }
         }
-        catch (IllegalArgumentException | YAMLException e) {
+        catch (IllegalArgumentException e) {
             sender.sendMessage(Component.text().content("[Validation Error] " + e.getMessage()).color(TextColor.color(255,0,0)).build());
         }
         catch (IllegalStateException e) {

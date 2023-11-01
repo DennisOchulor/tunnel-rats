@@ -60,7 +60,7 @@ public class TunnelGenerator {
         generator.start();
     }
 
-    private void start() {//todo intercept console thingie
+    private void start() {
         phase1();
         phase2();
         phase3();

@@ -5,7 +5,6 @@ import com.sk89q.worldedit.extension.factory.parser.pattern.RandomPatternParser;
 import com.sk89q.worldedit.extension.factory.parser.pattern.SingleBlockPatternParser;
 import com.sk89q.worldedit.extension.input.InputParseException;
 import com.sk89q.worldedit.extension.input.ParserContext;
-import org.yaml.snakeyaml.error.YAMLException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +61,7 @@ public record Slice(int length, String composition, List<NbtReplace> nbtReplaces
             return new Slice(Integer.parseInt(arr[0]), warpedComposition, nbtReplaces);
         }
         catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
-            throw new YAMLException("Malformed YAML file! Please ensure you followed the tunnel template carefully.");
+            throw new IllegalArgumentException("Malformed YAML file! Please ensure you followed the tunnel template carefully.");
         }
         catch (InputParseException e) { //if validation fails, it goes here
             throw new IllegalArgumentException(e.getLocalizedMessage());
