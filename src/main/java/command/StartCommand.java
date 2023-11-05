@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 public class StartCommand implements CommandExecutor {
@@ -19,12 +20,14 @@ public class StartCommand implements CommandExecutor {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set @a 0 points");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set @a 0 levels");
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke @a everything");
-        Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("5"); playNoteblock(1); },100);
-        Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("4"); playNoteblock(1); },120);
-        Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("3"); playNoteblock(1); },140);
-        Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("2"); playNoteblock(1); },160);
-        Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("1"); playNoteblock(1); },180);
-        Bukkit.getScheduler().runTaskLater(Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin"),() -> { title("GO!!!"); playNoteblock(2); },200);
+
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin");
+        Bukkit.getScheduler().runTaskLater(plugin,() -> { title("5"); playNoteblock(1); },100);
+        Bukkit.getScheduler().runTaskLater(plugin,() -> { title("4"); playNoteblock(1); },120);
+        Bukkit.getScheduler().runTaskLater(plugin,() -> { title("3"); playNoteblock(1); },140);
+        Bukkit.getScheduler().runTaskLater(plugin,() -> { title("2"); playNoteblock(1); },160);
+        Bukkit.getScheduler().runTaskLater(plugin,() -> { title("1"); playNoteblock(1); },180);
+        Bukkit.getScheduler().runTaskLater(plugin,() -> { title("GO!!!"); playNoteblock(2); },200);
 
         return true;
     }

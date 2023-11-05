@@ -5,10 +5,11 @@ Important things to note:
 - For 4 teams mode, the length of the middle must also be the same as its width.
 - The same middle can be reused for different tunnels provided the width and height match.
 - Middles are saved as .schem files. You can see them in the "plugins/WorldEdit/schematics/" folder.
+- The width goes along the Z axis, length along the X axis and height along the Y axis.
 
 Steps to create a middle:
 1. Build your middle according to the required width/height of the tunnel.
 2. Using WorldEdit's wand (//wand), select the entire build.
-3. Type the command "/savemiddle <name>". Replace name with your preferred name. This command will teleport you to the correct position and automatically copy and save the build.
+3. Type the command "/savemiddle <name>". Replace <name> with your preferred name. This command will teleport you to the correct position and automatically copy and save the build.
 4. That's it!
 

@@ -1,7 +1,5 @@
 package main;
 
-import org.bukkit.Bukkit;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -58,6 +56,7 @@ public class FileManager {
                 Files.copy(FileManager.class.getResourceAsStream("/TunnelRats/tunnels/default_four_teams.yml"), Path.of(tunnels.getPath() + "/default_four_teams.yml"));
                 Files.copy(FileManager.class.getResourceAsStream("/TunnelRats/README middle.txt"), Path.of(mainFolder + "/plugins/TunnelRats/README middle.txt"));
                 Files.copy(FileManager.class.getResourceAsStream("/TunnelRats/README tunnel-template.txt"), Path.of(mainFolder + "/plugins/TunnelRats/README tunnel-template.txt"));
+                Files.copy(FileManager.class.getResourceAsStream("/world.zip"), Path.of(mainFolder + "/world.zip"));
             }
 
             if(!Files.exists(Path.of(schematicsFolder + "/default_two_teams.schem")) || !Files.exists(Path.of(schematicsFolder + "/default_four_teams.schem"))) {
