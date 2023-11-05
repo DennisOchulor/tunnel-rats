@@ -10,12 +10,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 
 public class SaveMiddleCommand implements CommandExecutor {
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+    public boolean onCommand(CommandSender commandSender, Command command,
+                             String s, String[] strings) {
         if(strings.length != 1) {
             commandSender.sendMessage("Incorrect usage!");
             return false;
@@ -26,7 +26,7 @@ public class SaveMiddleCommand implements CommandExecutor {
             Coordinate copyPos = new Coordinate(vec.getBlockX(),vec.getBlockY(),vec.getBlockZ()).shiftZ(session.getSelection().getLength());
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"tp " + commandSender.getName() + " " + copyPos.asVanillaString());
             Bukkit.dispatchCommand(commandSender,"/copy -e");
-            Bukkit.dispatchCommand(commandSender,"/schem save " + strings[0]);
+            Bukkit.dispatchCommand(commandSender,"/schem save " + strings[0] + " -f");
             commandSender.sendMessage("Successfully saved middle '" + strings[0] + "'!");
             return true;
         }
