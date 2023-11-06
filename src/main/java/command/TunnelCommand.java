@@ -1,6 +1,7 @@
 package command;
 
 import main.FileManager;
+import main.TeamManager;
 import main.TunnelGenerator;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -38,6 +39,7 @@ public class TunnelCommand implements CommandExecutor {
             Tunnel tunnel = Tunnel.getTunnel(args[0], player);
             if(tunnel == null) sender.sendMessage("The tunnel '" + args[0] + "' does not exists!");
             else {
+                TeamManager.emptyAllTeams();
                 sender.sendMessage("Generating tunnel...one moment!");
                 TunnelGenerator.generate(tunnel, sender);
                 sender.sendMessage("Successfully generated tunnel '" + args[0] + "'!");

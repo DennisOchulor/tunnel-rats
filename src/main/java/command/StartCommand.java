@@ -1,5 +1,6 @@
 package command;
 
+import main.TeamManager;
 import main.Teleporters;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -7,19 +8,29 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Set;
+
 public class StartCommand implements CommandExecutor {
+
+    public static volatile boolean running = false;
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command,
                              String s, String[] strings) {
+        running = true;
         Teleporters.disableTeleporters();
+        Set<String> players = TeamManager.getAllPlayers();
         title("Remember to set your spawn!");
         playNoteblock(0.5);
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect clear @a");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect give @a saturation 3 2 true");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set @a 0 points");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set @a 0 levels");
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke @a everything");
+
+        players.forEach(p -> {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect clear " + p);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect give " + p + " saturation 3 2 true");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set " + p + " 0 points");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set " + p + " 0 levels");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke " + p + " everything");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"gamemode survival " + p);
+        });
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin");
         Bukkit.getScheduler().runTaskLater(plugin,() -> { title("5"); playNoteblock(1); },100);
