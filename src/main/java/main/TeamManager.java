@@ -69,7 +69,7 @@ public class TeamManager {
 
     public static void init() {} //run static initializer
 
-    public static Set<String> getAllPlayers() {
+    public static Set<String> getAllAlivePlayers() {
         HashSet<String> players = new HashSet<>();
         players.addAll(RED.getEntries());
         players.addAll(BLUE.getEntries());

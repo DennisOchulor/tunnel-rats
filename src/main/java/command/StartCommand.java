@@ -19,13 +19,14 @@ public class StartCommand implements CommandExecutor {
                              String s, String[] strings) {
         running = true;
         Teleporters.disableTeleporters();
-        Set<String> players = TeamManager.getAllPlayers();
+        Set<String> players = TeamManager.getAllAlivePlayers();
         title("Remember to set your spawn!");
         playNoteblock(0.5);
 
         players.forEach(p -> {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect clear " + p);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect give " + p + " saturation 3 2 true");
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"effect give " + p + " haste infinite 1 true");
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set " + p + " 0 points");
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set " + p + " 0 levels");
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke " + p + " everything");
