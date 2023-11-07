@@ -9,23 +9,24 @@ commands:
   tunnel:
     description: Generate or list tunnels
     usage: /tunnel <name> to generate the specified tunnel, /tunnel to list all tunnels.
-    permission: op
+    permission: tunnelrats.commands
     permission-message: You do not have permission to run this command!
   mode:
     description: Switch between 2 teams and 4 teams mode
     usage: /mode to switch modes
-    permission: op
+    permission: tunnelrats.commands
     permission-message: You do not have permission to run this command!
   start:
     description: Starts the game
     usage: /start
-    permission: op
+    permission: tunnelrats.commands
     permission-message: You do not have permission to run this command!
   savemiddle:
     description: Teleports the player to the correct position, copies and saves the middle
     usage: /savemiddle <name>
-    permission: op
+    permission: tunnelrats.commands
     permission-message: You do not have permission to run this command!
 permissions:
-  op:
-    default: op
+  tunnelrats.commands:
+    description: Grants permission to use all TunnelRats commands.
+    default: "op"

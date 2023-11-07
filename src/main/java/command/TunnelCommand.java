@@ -5,7 +5,9 @@ import main.TeamManager;
 import main.TunnelGenerator;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,6 +32,7 @@ public class TunnelCommand implements CommandExecutor {
                 TextComponent line = new TextComponent(t);
                 line.setColor(ChatColor.GOLD);
                 line.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,"/tunnel " + t));
+                line.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(t)));
                 player.spigot().sendMessage(line);
             });
             return true;
