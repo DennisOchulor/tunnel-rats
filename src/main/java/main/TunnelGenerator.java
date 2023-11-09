@@ -118,7 +118,7 @@ public class TunnelGenerator {
         Coordinate chest = refPos.shiftY(1).shiftX(4).shiftZ(tunnel.width() / 2 * -1);
         Coordinate bed = chest.shiftX(-1);
         Coordinate torch = chest.shiftY(1);
-        setblock(chest,"chest[facing=west]{Items:[{Count:15b,Slot:13b,id:\"minecraft:bread\"}]}");
+        setblock(chest,"chest[facing=west]");
         setblock(bed,"red_bed[facing=east,part=head]");
         setblock(bed.shiftX(-1),"red_bed[facing=east,part=foot]");
         setblock(torch,"wall_torch[facing=west]");
@@ -127,7 +127,7 @@ public class TunnelGenerator {
         Coordinate torch1 = torch.shiftX(totalTunnelLength - 8);
         Coordinate chest1 = torch1.shiftY(-1);
         Coordinate bed1 = chest1.shiftX(1);
-        setblock(chest1,"chest[facing=east]{Items:[{Count:15b,Slot:13b,id:\"minecraft:bread\"}]}");
+        setblock(chest1,"chest[facing=east]");
         setblock(bed1,"red_bed[facing=west,part=head]");
         setblock(bed1.shiftX(1),"red_bed[facing=west,part=foot]");
         setblock(torch1,"wall_torch[facing=east]");

@@ -17,6 +17,10 @@ public class StartCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command,
                              String s, String[] strings) {
+        if(running) {
+            commandSender.sendMessage("Game is already in progress!");
+            return true;
+        }
         running = true;
         Teleporters.disableTeleporters();
         Set<String> players = TeamManager.getAllAlivePlayers();
@@ -31,6 +35,8 @@ public class StartCommand implements CommandExecutor {
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"xp set " + p + " 0 levels");
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"advancement revoke " + p + " everything");
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"gamemode survival " + p);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"clear " + p);
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(),"give " + p + " bread 5");
         });
 
         Plugin plugin = Bukkit.getPluginManager().getPlugin("tunnel-rats-plugin");

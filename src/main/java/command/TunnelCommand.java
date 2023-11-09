@@ -43,6 +43,7 @@ public class TunnelCommand implements CommandExecutor {
             if(tunnel == null) sender.sendMessage("The tunnel '" + args[0] + "' does not exists!");
             else {
                 TeamManager.emptyAllTeams();
+                StartCommand.running = false;
                 sender.sendMessage("Generating tunnel...one moment!");
                 TunnelGenerator.generate(tunnel, sender);
                 sender.sendMessage("Successfully generated tunnel '" + args[0] + "'!");
