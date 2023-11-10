@@ -1,8 +1,12 @@
 package main;
 
-import command.*;
+import command.ModeCommand;
+import command.SaveMiddleCommand;
+import command.StartCommand;
+import command.TunnelCommand;
 import event.OnPlayerDeath;
 import event.OnPlayerRespawn;
+import metrics.MetricsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,5 +25,6 @@ public class TunnelRats extends JavaPlugin implements Listener {
         this.getCommand("savemiddle").setExecutor(new SaveMiddleCommand());
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "/world world"));
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, TeamManager::init);
+        MetricsManager.init(this);  //bStats
     }
 }

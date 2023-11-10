@@ -2,6 +2,7 @@ package command;
 
 import main.TeamManager;
 import main.Teleporters;
+import metrics.MetricsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,6 +23,7 @@ public class StartCommand implements CommandExecutor {
             return true;
         }
         running = true;
+        MetricsManager.logMode(); //bStats
         Teleporters.disableTeleporters();
         Set<String> players = TeamManager.getAllAlivePlayers();
         title("Remember to set your spawn!");
