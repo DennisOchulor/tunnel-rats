@@ -1,34 +1,34 @@
 package metrics;
 
 import command.ModeCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.prefs.Preferences;
 
 public class MetricsManager {
+    private MetricsManager() {}
 
-    private static final Preferences pref = Preferences.userNodeForPackage(MetricsManager.class);
+    private static int twoTeamsGamesPlayed = 0;
+    private static int fourTeamsGamesPlayed = 0;
 
     public static void init(JavaPlugin plugin) {
         Metrics metrics = new Metrics(plugin, 20246);  //bStats
-        metrics.addCustomChart(new Metrics.AdvancedPie("games_played",() -> {
+        metrics.addCustomChart(new Metrics.AdvancedPie("recently_played_games",() -> {
             Map<String,Integer> map = new HashMap<>();
-            map.put("Two Teams", pref.getInt("Two Teams",0));
-            map.put("Four Teams", pref.getInt("Four Teams",0));
+            map.put("Two Teams", twoTeamsGamesPlayed);
+            map.put("Four Teams", fourTeamsGamesPlayed);
             return map;
         }));
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            twoTeamsGamesPlayed = 0;
+            fourTeamsGamesPlayed = 0;
+        }, 1728000L, 172800L); // every 24h
     }
 
     public static void logMode() {
-        if(ModeCommand.mode() == 2) {
-            int value = pref.getInt("Two Teams", 0);
-            pref.putInt("Two Teams", ++value);
-        }
-        else {
-            int value = pref.getInt("Four Teams", 0);
-            pref.putInt("Four Teams", ++value);
-        }
+        if(ModeCommand.mode() == 2) twoTeamsGamesPlayed++;
+        else fourTeamsGamesPlayed++;
     }
 }
