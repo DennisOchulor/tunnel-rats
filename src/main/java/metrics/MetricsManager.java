@@ -24,7 +24,7 @@ public class MetricsManager {
         Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             twoTeamsGamesPlayed = 0;
             fourTeamsGamesPlayed = 0;
-        }, 1728000L, 172800L); // every 24h
+        }, 1728000L, 1728000L); // every 24h
     }
 
     public static void logMode() {
