@@ -40,7 +40,7 @@ public class FileManager {
 
     public static List<String> listTunnels() {
         try(var tunnels = Files.walk(tunnelsFolder)) {
-            return tunnels.map(Path::getFileName).map(Path::toString).filter(s -> !s.equals("tunnels")).map(s -> s.substring(0,s.length()-4)).toList();
+            return tunnels.map(Path::getFileName).map(Path::toString).filter(s -> s.endsWith(".yml")).map(s -> s.substring(0,s.length()-4)).toList();
         }
         catch (IOException e) {
             throw new RuntimeException(e);
