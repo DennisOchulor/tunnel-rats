@@ -39,11 +39,8 @@ public class Teleporters {
         Coordinate red = blue.shiftX(tunnel.totalSlicesLength() * 2 + tunnel.middle().length() + 7);
         setCommandBlockTp(RED_TP,red);
 
-        if(ModeCommand.mode() == 2) {
-            setCommandBlock(GREEN_TP, "tellraw @p \\\"This team is not included in 2 teams mode.\\\"");
-            setCommandBlock(YELLOW_TP, "tellraw @p \\\"This team is not included in 2 teams mode.\\\"");
-            return;
-        }
+        if(ModeCommand.mode() == 2) return;
+
         int midShift = tunnel.middle().length() / 2;
         Coordinate mid = blue.shiftX(tunnel.totalSlicesLength() + 4).shiftX(midShift);
         Coordinate green = mid.shiftZ(midShift + tunnel.totalSlicesLength() + 4);
